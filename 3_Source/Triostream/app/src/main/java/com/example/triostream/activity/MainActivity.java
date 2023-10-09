@@ -1,4 +1,4 @@
-package com.example.triostream;
+package com.example.triostream.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -16,6 +16,9 @@ import android.widget.ViewFlipper;
 import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
+import com.example.triostream.R;
+import com.example.triostream.adapter.LoaiSpAdapter;
+import com.example.triostream.model.LoaiSp;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -29,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     NavigationView navigationView;
     ListView listViewManHinhChinh;
     DrawerLayout drawerLayout;
+    LoaiSpAdapter loaiSpAdapter;
+    List<LoaiSp> mangloaisp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +84,13 @@ public class MainActivity extends AppCompatActivity {
         listViewManHinhChinh = findViewById(R.id.listviewmanhinhchinh);
         navigationView = findViewById(R.id.navigationview);
         drawerLayout = findViewById(R.id.drawerlayout);
+        //khoi tao list
+        mangloaisp = new  ArrayList<>();
+
+        //khoi tao adapter
+
+        loaiSpAdapter = new LoaiSpAdapter(getApplicationContext(),mangloaisp);
+        listViewManHinhChinh.setAdapter(loaiSpAdapter);
     }
 }
 
