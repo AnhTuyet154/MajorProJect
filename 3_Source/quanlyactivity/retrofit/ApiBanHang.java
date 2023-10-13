@@ -5,6 +5,7 @@ package com.example.quanlyactivity.retrofit;
 import com.example.quanlyactivity.model.MessageModel;
 import com.example.quanlyactivity.model.SanPhamMoi;
 import com.example.quanlyactivity.model.SanPhamMoiModel;
+import com.example.quanlyactivity.model.UserModel;
 
 import io.reactivex.rxjava3.core.Observable;
 import okhttp3.MultipartBody;
@@ -53,5 +54,35 @@ public interface  ApiBanHang {
     @GET("getspmoi.php")
     Observable<SanPhamMoiModel> getSpMoi();
 
+    @POST("dangky.php")
+    @FormUrlEncoded
+    Observable<UserModel> dangKi(
+            @Field("email") String email,
+            @Field("pass") String pass,
+            @Field("username") String username,
+            @Field("mobile") String mobile,
+            @Field("uid") String uid
+
+    );
+
+    @POST("updatetoken.php")
+    @FormUrlEncoded
+    Observable<MessageModel> updateToken(
+            @Field("id") int id,
+            @Field("token") String token
+    );
+
+    @POST("dangnhap.php")
+    @FormUrlEncoded
+    Observable<UserModel> dangNhap(
+            @Field("email") String email,
+            @Field("pass") String pass
+    );
+
+    @POST("gettoken.php")
+    @FormUrlEncoded
+    Observable<UserModel> getToken(
+            @Field("status") int status
+    );
 
 }

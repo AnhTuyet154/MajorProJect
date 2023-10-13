@@ -11,6 +11,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,9 +22,12 @@ import com.example.quanlyactivity.R;
 import com.example.quanlyactivity.adapter.SanPhamMoiAdapter;
 import com.example.quanlyactivity.model.EventBus.SuaXoaEvent;
 import com.example.quanlyactivity.model.SanPhamMoi;
+import com.example.quanlyactivity.model.User;
 import com.example.quanlyactivity.retrofit.ApiBanHang;
 import com.example.quanlyactivity.retrofit.RetrofitClient;
 import com.example.quanlyactivity.utils.Utils;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -31,6 +35,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
+import io.paperdb.Paper;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -44,18 +49,29 @@ public class QuanLyActivity extends AppCompatActivity {
     List<SanPhamMoi> list;
     SanPhamMoiAdapter adapter;
     SanPhamMoi sanPhamSuaXoa;
+    ImageView imageMess;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quan_ly);
+        //de o main
         apiBanHang = RetrofitClient.getInstance(Utils.BASE_URL).create(ApiBanHang.class);
+
         initView();
         initControl();
         getSpMoi();
+        //De o main
+        Paper.init(this);
+        if (Paper.book().read("user")!=null){
+            User user = Paper.book().read("user");
+            Utils.user_current = user;
+        }
+        getToken();
         if(isConnected(this)){
             Toast.makeText(getApplicationContext(), "ok", Toast.LENGTH_LONG).show();
         }else
             Toast.makeText(getApplicationContext(), "khong co Internet", Toast.LENGTH_LONG).show();
+
     }
 
     private void initControl() {
@@ -63,6 +79,13 @@ public class QuanLyActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), Add_Product_Activity.class);
+                startActivity(intent);
+            }
+        });
+        imageMess.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
                 startActivity(intent);
             }
         });
@@ -85,11 +108,13 @@ public class QuanLyActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), throwable.getMessage(), Toast.LENGTH_LONG).show();
                         }
                 ));
+
     }
 
 
     private void initView(){
         img_them = findViewById(R.id.img_them);
+        imageMess = findViewById(R.id.image_mess);
         recyclerView = findViewById(R.id.recycleview_ql);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
             recyclerView.setHasFixedSize(true);
@@ -156,7 +181,7 @@ public class QuanLyActivity extends AppCompatActivity {
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
-
+//Main
     public static boolean isConnected(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -171,4 +196,38 @@ public class QuanLyActivity extends AppCompatActivity {
         }
         return false;
     }
+    private void getToken(){
+        FirebaseMessaging.getInstance().getToken()
+                .addOnSuccessListener(new OnSuccessListener<String>() {
+                    @Override
+                    public void onSuccess(String s) {
+                        if(!TextUtils.isEmpty(s)){
+                            compositeDisposable.add(apiBanHang.updateToken(Utils.user_current.getId(),s)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(
+                                            messageModel -> {
+
+                                            },
+                                            throwable -> {
+                                                Log.d("Log", throwable.getMessage());
+                                            }
+                                    ));
+                        }
+                    }
+                });
+        compositeDisposable.add(apiBanHang.getToken(1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        userModel -> {
+                            if(userModel.isSuccess()){
+                                Utils.ID_RECEIVED = String.valueOf(userModel.getResult().get(0).getId());                            }
+                        },
+                        throwable -> {
+                            Toast.makeText(getApplicationContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                ));
+    }
 }
+
