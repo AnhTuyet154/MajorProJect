@@ -6,8 +6,12 @@ $hinhanh = $_POST['hinhanh'];
 $mota = $_POST['mota'];
 $loai = $_POST['loai'];
 $id = $_POST['id'];
+//bai66
+//$sl = $_POST['slsp'];
 
 $query = 'UPDATE `sanphammoi` SET `tensp`="'.$tensp.'" ,`giasp`="'.$gia.'",`hinhanh`="'.$hinhanh.'",`mota`="'.$mota.'",`loai`="'.$loai.'" WHERE `id`='.$id;
+//bai66
+//$query = 'UPDATE `sanphammoi` SET `tensp`="'.$tensp.'" , `giasp`='.$gia.',`hinhanh`="'.$hinhanh.'",`mota`="'.$mota.'",`loai`='.$loai.' , `sltonkho`='.$sl.'  WHERE `id`='.$id;
 $data = mysqli_query($conn, $query);
 
 if($data == true){
