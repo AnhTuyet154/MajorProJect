@@ -5,11 +5,10 @@ $gia = $_POST['gia'];
 $hinhanh = $_POST['hinhanh'];
 $mota = $_POST['mota'];
 $loai = $_POST['loai'];
-//bai66
-//$sltonkho = $_POST['slsp'];
+$sltonkho = $_POST['slsp'];
 
-$query = 'INSERT INTO `sanphammoi`( `tensp`, `giasp`, `hinhanh`, `mota`, `loai`, `sltonkho`) VALUES ("'.$tensp.'","'.$gia.'","'.$hinhanh.'","'.$mota.'",'.$loai.')';
-//$query = 'INSERT INTO `sanphammoi`( `tensp`, `giasp`, `hinhanh`, `mota`, `loai`, `sltonkho`) VALUES ("'.$tensp.'","'.$gia.'","'.$hinhanh.'","'.$mota.'",'.$loai.','.$sltonkho.')';
+$query = 'INSERT INTO `sanphammoi`( `tensp`, `giasp`, `hinhanh`, `mota`, `loai`, `slsp`) VALUES ("'.$tensp.'","'.$gia.'","'.$hinhanh.'","'.$mota.'",'.$loai.','.$sltonkho.')';
+
 $data = mysqli_query($conn, $query);
 
 if($data == true){
