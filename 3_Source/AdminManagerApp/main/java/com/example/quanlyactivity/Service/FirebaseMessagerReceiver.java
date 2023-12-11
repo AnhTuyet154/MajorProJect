@@ -19,7 +19,7 @@ import com.google.firebase.messaging.RemoteMessage;
 public class FirebaseMessagerReceiver extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage message) {
-        if (message.getNotification()!= null){
+        if (message.getNotification() != null){
             showNotification(message.getNotification().getTitle(),message.getNotification().getBody());
         }
     }

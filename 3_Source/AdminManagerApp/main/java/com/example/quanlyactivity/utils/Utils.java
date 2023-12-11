@@ -1,9 +1,13 @@
 package com.example.quanlyactivity.utils;
 
+import com.example.quanlyactivity.model.GioHang;
 import com.example.quanlyactivity.model.User;
 
+import java.util.List;
+
 public class Utils {
-    public static final String BASE_URL = "http://192.168.0.67/banhang/";
+    public static final String BASE_URL = "http://192.168.1.18/banhang/";
+    public static List<GioHang> manggiohang;
     public static User user_current = new User();
 
     public static String ID_RECEIVED;

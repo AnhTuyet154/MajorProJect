@@ -71,6 +71,7 @@ public class Add_Product_Activity extends AppCompatActivity {
             binding.giasp.setText(sanPhamSua.getGiasp());
             binding.tensp.setText(sanPhamSua.getTensp());
             binding.hinhanh.setText(sanPhamSua.getHinhanh());
+            binding.slsp.setText(sanPhamSua.getSlsp()+"");
             binding.spinnerLoai.setSelection(sanPhamSua.getLoai());
         }
 
@@ -123,11 +124,11 @@ public class Add_Product_Activity extends AppCompatActivity {
         String str_gia = binding.giasp.getText().toString().trim();
         String str_mota = binding.mota.getText().toString().trim();
         String str_hinhanh = binding.hinhanh.getText().toString().trim();
-
-        if(TextUtils.isEmpty(str_ten) || TextUtils.isEmpty(str_gia) ||TextUtils.isEmpty(str_mota) ||TextUtils.isEmpty(str_hinhanh) || loai == 0){
+        String str_sl = binding.slsp.getText().toString();
+        if(TextUtils.isEmpty(str_sl) || TextUtils.isEmpty(str_ten) || TextUtils.isEmpty(str_gia) ||TextUtils.isEmpty(str_mota) ||TextUtils.isEmpty(str_hinhanh) || loai == 0){
             Toast.makeText(getApplicationContext(), "Vui lòng nhập đủ thông tin", Toast.LENGTH_LONG).show();
         } else {
-            compositeDisposable.add(apiBanHang.updateSp(str_ten, str_gia, str_hinhanh, str_mota, loai, sanPhamSua.getId())
+            compositeDisposable.add(apiBanHang.updateSp(str_ten, str_gia, str_hinhanh, str_mota, loai, sanPhamSua.getId(), Integer.parseInt(str_sl))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
@@ -159,12 +160,13 @@ public class Add_Product_Activity extends AppCompatActivity {
         String str_gia = binding.giasp.getText().toString().trim();
         String str_mota = binding.mota.getText().toString().trim();
         String str_hinhanh = binding.hinhanh.getText().toString().trim();
+        String str_sl = binding.slsp.getText().toString();
 
-        if(TextUtils.isEmpty(str_ten) || TextUtils.isEmpty(str_gia) ||TextUtils.isEmpty(str_mota) ||TextUtils.isEmpty(str_hinhanh) || loai == 0){
+        if(TextUtils.isEmpty(str_sl)||TextUtils.isEmpty(str_ten) || TextUtils.isEmpty(str_gia) ||TextUtils.isEmpty(str_mota) ||TextUtils.isEmpty(str_hinhanh) || loai == 0){
             Log.e("Thêm sản phẩm", "Vui lòng nhập đủ thông tin"); // Log lỗi ở đây
             Toast.makeText(getApplicationContext(), "Vui lòng nhập đủ thông tin", Toast.LENGTH_LONG).show();
         } else {
-            compositeDisposable.add(apiBanHang.insertSp(str_ten, str_gia, str_hinhanh, str_mota, (loai))
+            compositeDisposable.add(apiBanHang.insertSp(str_ten, str_gia, str_hinhanh, str_mota, (loai),Integer.parseInt(str_sl))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
@@ -172,6 +174,8 @@ public class Add_Product_Activity extends AppCompatActivity {
                                 if (messageModel.isSuccess()) {
                                     Log.i("Thêm sản phẩm", "Thêm thành công: " + messageModel.getMessage()); // Log thành công
                                     Toast.makeText(getApplicationContext(), messageModel.getMessage(), Toast.LENGTH_LONG).show();
+                                    binding.tensp.setText("");
+                                    binding.giasp.setText("");
                                 } else {
                                     Log.e("Thêm sản phẩm", "Lỗi: " + messageModel.getMessage()); // Log lỗi
                                     Toast.makeText(getApplicationContext(), messageModel.getMessage(), Toast.LENGTH_LONG).show();

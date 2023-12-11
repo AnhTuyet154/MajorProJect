@@ -57,4 +57,13 @@ public class SanPhamMoi implements Serializable {
     String hinhanh;
     String mota;
     int loai;
+    int slsp;
+
+    public int getSlsp() {
+        return slsp;
+    }
+
+    public void setSlsp(int slsp) {
+        this.slsp = slsp;
+    }
 }

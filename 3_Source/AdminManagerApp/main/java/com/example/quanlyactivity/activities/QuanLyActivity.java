@@ -2,6 +2,7 @@ package com.example.quanlyactivity.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +16,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -33,6 +35,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.paperdb.Paper;
@@ -50,6 +53,9 @@ public class QuanLyActivity extends AppCompatActivity {
     SanPhamMoiAdapter adapter;
     SanPhamMoi sanPhamSuaXoa;
     ImageView imageMess;
+    //bai21
+    FrameLayout frameLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +91,7 @@ public class QuanLyActivity extends AppCompatActivity {
         imageMess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ThongKeActivity.class);
                 startActivity(intent);
             }
         });
@@ -182,6 +188,49 @@ public class QuanLyActivity extends AppCompatActivity {
         EventBus.getDefault().unregister(this);
     }
 //Main
+
+    private void Anhxa(){
+        toolbar = findViewById(R.id.toolbarmanhinhchinh);
+        viewFlipper=findViewById(R.id.viewlipper);
+        recyclerViewManHinhChinh = findViewById(R.id.recycleview);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this,2);
+        RecyclerViewManHinhChinh.setLayoutManager(layoutManager);
+        recyclerViewManHinhChinh = findViewById(R.id.listviewmanhinhchinh);
+        navigationView = findViewById(R.id.navigationview);
+        drawerLayout = findViewById(R.drawerlayout);
+        badge = findViewById(R.id.menu_sl);
+        frameLayout = findViewById(R.id.framegiohang);
+        //khoitaolist
+        mangloaisp = new ArrayList<>();
+        mangSpMoi = new ArrayList<>();
+        if(Utils.manggiohang == null){
+            Utils.manggiohang = new ArrayList<>();
+        }else {
+            int totalItem = 0;
+            for(int i = 0;i<Utils.manggiohang.size();i++){
+                totalItem = totalItem + Utils.manggiohang.get(i).getSoluong();
+            }
+            badge.setText(String.valueOf(totalItem));
+        }
+frameLayout.setOnClickListener(new View.OnClickListener()
+{
+    @Override
+    public void onClick(View view){
+        Intent giohang = new Intent(getApplicationContext(), GioHangActivity.class);
+        startActivity(giohang);
+    }
+
+});
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        int totalItem = 0;
+        for(int i = 0;i<Utils.manggiohang.size();i++){
+            totalItem = totalItem + Utils.manggiohang.get(i).getSoluong();
+        }
+        badge.setText(String.valueOf(totalItem));
+    }
     public static boolean isConnected(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 

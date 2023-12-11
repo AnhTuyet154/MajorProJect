@@ -5,6 +5,7 @@ package com.example.quanlyactivity.retrofit;
 import com.example.quanlyactivity.model.MessageModel;
 import com.example.quanlyactivity.model.SanPhamMoi;
 import com.example.quanlyactivity.model.SanPhamMoiModel;
+import com.example.quanlyactivity.model.ThongKeModel;
 import com.example.quanlyactivity.model.UserModel;
 
 import io.reactivex.rxjava3.core.Observable;
@@ -27,7 +28,9 @@ public interface  ApiBanHang {
             @Field("gia") String gia,
             @Field("hinhanh") String hinhanh,
             @Field("mota") String mota,
-            @Field("loai") int id
+            @Field("loai") int id,
+            @Field("slsp") int sl
+
     );
 
     @POST("updatesp.php")
@@ -38,8 +41,9 @@ public interface  ApiBanHang {
             @Field("hinhanh") String hinhanh,
             @Field("mota") String mota,
             @Field("loai") int idloai,
-            @Field("id") int id
-    );
+            @Field("id") int id,
+            @Field("slsp") int slsp
+            );
 
     @POST("xoa.php")
     @FormUrlEncoded
@@ -53,6 +57,12 @@ public interface  ApiBanHang {
 
     @GET("getspmoi.php")
     Observable<SanPhamMoiModel> getSpMoi();
+
+    @GET("thongke.php")
+    Observable<ThongKeModel> getthongke();
+
+    @GET("thongkethang.php")
+    Observable<ThongKeModel> getthongkeThang();
 
     @POST("dangky.php")
     @FormUrlEncoded
@@ -82,6 +92,12 @@ public interface  ApiBanHang {
     Observable<UserModel> dangNhap(
             @Field("email") String email,
             @Field("pass") String pass
+    );
+    @POST("reset.php")
+    @FormUrlEncoded
+    Observable<UserModel> resetPass(
+            @Field("email") String email
+
     );
 
     @POST("gettoken.php")
