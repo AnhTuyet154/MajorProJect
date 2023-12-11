@@ -58,6 +58,15 @@ public class SanPhamMoi implements Serializable {
     String mota;
     int loai;
     int slsp;
+    String linkvideo;
+
+    public String getLinkvideo() {
+        return linkvideo;
+    }
+
+    public void setLinkvideo(String linkvideo) {
+        this.linkvideo = linkvideo;
+    }
 
     public int getSlsp() {
         return slsp;

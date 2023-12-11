@@ -24,7 +24,7 @@ import java.text.DecimalFormat;
 
 public class ChiTiet_Activity extends AppCompatActivity {
     TextView tensp, giasp, mota;
-    Button btnthem;
+    Button btnthem, btnyoutube;
     ImageView imghinhanh;
     Spinner spinner;
     Toolbar toolbar;
@@ -46,6 +46,15 @@ public class ChiTiet_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 themgiohang();
+            }
+        });
+
+        btnyoutube.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent youtube = new Intent(getApplicationContext(), YoutubeActivity.class);
+                youtube.putExtra("linkvideo",sanPhamMoi.getLinkvideo());
+                startActivity(youtube);
             }
         });
     }
@@ -109,6 +118,7 @@ public class ChiTiet_Activity extends AppCompatActivity {
         giasp = findViewById(R.id.txtgiasp);
         mota = findViewById(R.id.txtmotachitiet);
         btnthem = findViewById(R.id.btnthemvaogiohang);
+        btnyoutube = findViewById(R.id.btnyoutube);
         spinner = findViewById(R.id.spinner);
         imghinhanh = findViewById(R.id.imgchitiet);
         toolbar = findViewById(R.id.toolbar);
