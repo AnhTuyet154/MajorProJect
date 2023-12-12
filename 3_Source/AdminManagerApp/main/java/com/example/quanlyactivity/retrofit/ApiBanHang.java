@@ -2,15 +2,14 @@ package com.example.quanlyactivity.retrofit;
 
 
 
+import com.example.quanlyactivity.model.DonHangModel;
 import com.example.quanlyactivity.model.MessageModel;
-import com.example.quanlyactivity.model.SanPhamMoi;
 import com.example.quanlyactivity.model.SanPhamMoiModel;
 import com.example.quanlyactivity.model.ThongKeModel;
 import com.example.quanlyactivity.model.UserModel;
 
 import io.reactivex.rxjava3.core.Observable;
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -111,6 +110,11 @@ public interface  ApiBanHang {
     Observable<MessageModel> updateOrder(
             @Field("id") int id,
             @Field("trangthai") String trangthai
+    );
+    @POST("xemdonhang.php")
+    @FormUrlEncoded
+    Observable<DonHangModel> xemDonHang(
+            @Field("iduser") int id
     );
 
 }
