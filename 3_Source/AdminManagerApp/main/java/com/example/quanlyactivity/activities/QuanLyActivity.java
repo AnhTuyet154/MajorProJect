@@ -1,6 +1,7 @@
 package com.example.quanlyactivity.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -56,12 +57,15 @@ public class QuanLyActivity extends AppCompatActivity {
     //bai21
     FrameLayout frameLayout;
 
+    ImageView imgsearch;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quan_ly);
         //de o main
         apiBanHang = RetrofitClient.getInstance(Utils.BASE_URL).create(ApiBanHang.class);
+        Anhxa();
 
         initView();
         initControl();
@@ -190,12 +194,13 @@ public class QuanLyActivity extends AppCompatActivity {
 //Main
 
     private void Anhxa(){
+        imgsearch = findViewById(R.id.imgsearch);
         toolbar = findViewById(R.id.toolbarmanhinhchinh);
         viewFlipper=findViewById(R.id.viewlipper);
         recyclerViewManHinhChinh = findViewById(R.id.recycleview);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this,2);
         RecyclerViewManHinhChinh.setLayoutManager(layoutManager);
-        recyclerViewManHinhChinh = findViewById(R.id.listviewmanhinhchinh);
+        listViewManHinhChinh = findViewById(R.id.listviewmanhinhchinh);
         navigationView = findViewById(R.id.navigationview);
         drawerLayout = findViewById(R.drawerlayout);
         badge = findViewById(R.id.menu_sl);
@@ -219,8 +224,15 @@ frameLayout.setOnClickListener(new View.OnClickListener()
         Intent giohang = new Intent(getApplicationContext(), GioHangActivity.class);
         startActivity(giohang);
     }
-
 });
+        //bai34 phut 5
+        imgsearch.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     @Override
     protected void onResume(){

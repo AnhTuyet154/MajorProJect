@@ -9,7 +9,6 @@ $id = $_POST['id'];
 $sl = $_POST['slsp'];
 
 $query = 'UPDATE `sanphammoi` SET `tensp`="'.$tensp.'" , `giasp`='.$gia.',`hinhanh`="'.$hinhanh.'",`mota`="'.$mota.'",`loai`='.$loai.' , `slsp`='.$sl.'  WHERE `id`='.$id;
-
 $data = mysqli_query($conn, $query);
 
 if($data == true){

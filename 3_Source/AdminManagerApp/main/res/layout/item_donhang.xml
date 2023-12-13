@@ -41,7 +41,7 @@
                 android:id="@+id/diachi_donhang"
                 android:layout_margin="5dp"
                 android:text="Địa chỉ"
-                android:textColor="@color/red"
+                android:textColor="@android:color/holo_red_light"
                 android:textStyle="bold"
                 android:textSize="15sp"
                 android:layout_width="match_parent"

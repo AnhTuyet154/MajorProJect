@@ -38,6 +38,7 @@
                     android:layout_height="wrap_content"/>
 
                 <TextView
+                    android:id="@+id/txttongtien"
                     android:text="25.000 "
                     android:textSize="15sp"
                     android:textColor="@android:color/holo_red_light"
@@ -64,6 +65,7 @@
                       android:layout_height="wrap_content"/>
 
                     <TextView
+                        android:id="@+id/txtsdt"
                         android:text="0898857614"
                         android:textSize="15sp"
                         android:textColor="@android:color/holo_red_light"
@@ -91,6 +93,7 @@
                         android:layout_height="wrap_content"/>
 
                     <TextView
+                        android:id="@+id/txtemail"
                         android:text="hehe@gmail.com"
                         android:textSize="15sp"
                         android:layout_gravity="center"
@@ -111,6 +114,7 @@
        android:layout_width="match_parent"
        android:layout_height="wrap_content">
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editdiachi"
             android:drawableLeft="@drawable/ic_baseline_add_location_24"
             android:drawablePadding="5dp"
             android:hint="Nhập địa chỉ giao hàng"

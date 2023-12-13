@@ -8,7 +8,6 @@ $loai = $_POST['loai'];
 $sltonkho = $_POST['slsp'];
 
 $query = 'INSERT INTO `sanphammoi`( `tensp`, `giasp`, `hinhanh`, `mota`, `loai`, `slsp`) VALUES ("'.$tensp.'","'.$gia.'","'.$hinhanh.'","'.$mota.'",'.$loai.','.$sltonkho.')';
-
 $data = mysqli_query($conn, $query);
 
 if($data == true){

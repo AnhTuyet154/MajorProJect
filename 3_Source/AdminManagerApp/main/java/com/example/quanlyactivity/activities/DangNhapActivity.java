@@ -117,7 +117,7 @@ public class DangNhapActivity extends AppCompatActivity {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-
+                            dangNhap(Paper.book().read("email"),Paper.book().read("pass"));
                         }
                     },1000);
                 }

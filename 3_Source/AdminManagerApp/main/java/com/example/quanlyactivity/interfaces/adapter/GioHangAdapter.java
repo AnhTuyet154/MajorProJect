@@ -56,14 +56,10 @@ public class GioHangAdapter extends RecyclerView.Adapter<GioHangAdapter.MyViewHo
             public void onImageClick(View view,int pos,int giatri){
                 Log.d("TAG","onImageClick: "+ pos + " ..."+giatri);
                 if(giatri == 1 ){
-                    if(gioHangList.get(pos).getSoluong()>1){
-                        int soluongmoi = gioHangList.get(pos).getSoluong()-1;
+                    if(gioHangList.get(pos).getSoluong()>1) {
+                        int soluongmoi = gioHangList.get(pos).getSoluong() - 1;
                         gioHangList.get(pos).setSoluong(soluongmoi);
 
-                        holder.item_giohang_soluong.setText(gioHangList.get(pos).getSoluong()+" ");
-                        long gia= gioHangList.get(pos).getSoluong() * gioHangList.get(pos).getGiasp();
-                        holder.item_giohang_giasp2.setText(decimalFormat.format(gia));
-                        EventBus.getDefault().postSticky(new TinhTongEvent());
                     }
                     //bai22
                     else if (gioHangList.get(pos).getSoluong()==1) {
@@ -84,7 +80,8 @@ public class GioHangAdapter extends RecyclerView.Adapter<GioHangAdapter.MyViewHo
                                 dialogInterface.dismiss();
                             }
                         });
-                        builder.show();
+                        Utils.manggiohang.remove(pos);
+                        notifyDataSetChanged();
                     }
                 } else if (giatri == 2 ) {
                     if(gioHangList.get(pos).getSoluong()<11){

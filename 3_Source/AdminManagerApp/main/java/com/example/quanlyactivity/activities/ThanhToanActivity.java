@@ -1,26 +1,27 @@
 package com.example.quanlyactivity.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toolbar;
+import android.widget.Toast;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.quanlyactivity.R;
-import com.example.quanlyactivity.model.NotiSendData;
 import com.example.quanlyactivity.retrofit.ApiBanHang;
-import com.example.quanlyactivity.retrofit.ApiPushNofication;
 import com.example.quanlyactivity.retrofit.RetrofitClient;
-import com.example.quanlyactivity.retrofit.RetrofitClientNoti;
 import com.example.quanlyactivity.utils.Utils;
+import com.google.gson.Gson;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.text.DecimalFormat;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -32,35 +33,93 @@ public class ThanhToanActivity extends AppCompatActivity {
 
     String  clientid="";
 
+    Toolbar toolbar;
+    TextView txttongtien, txtsdt,txtemail;
+    EditText edtdiachi;
+    AppCompatButton btndathang;
+    CompositeDisposable compositeDisposable;
+    ApiBanHang apiBanHang;
+    long tongtien;
+    int totalItem;
     @Override
     protected void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
         setContentView(R.layout.thanhtoan);
+        initView();
+        countItem();
+        initControl();
     }
 
+    private void countItem() {
+        totalItem = 0;
+        for (int i=0;i<Utils.manggiohang.size();i++){
+            totalItem = totalItem+ Utils.manggiohang.get(i).getSoluong();
+        }
 
+    }
 
+    private void initControl() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                finish();
+            }
+        });
 
+        DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+        tongtien = getIntent().getLongExtra("tongtien",0);
+        txttongtien.setText(decimalFormat.format(tongtien));
+        txtemail.setText(Utils.user_current.getEmail());
+        txtsdt.setText(Utils.user_current.getMobile());
 
+        btndathang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String str_dichi = edtdiachi.getText().toString().trim();
+                if (TextUtils.isEmpty(str_dichi)){
+                    Toast.makeText(getApplicationContext(),"Bạn chưa nhập địa chỉ", Toast.LENGTH_SHORT).show();
+                }else {
+                    //post data
+                    String str_email = Utils.user_current.getEmail();
+                    String str_sdt = Utils.user_current.getMobile();
+                    int id = Utils.user_current.getId();
+                    Log.d("test", new Gson().toJson(Utils.manggiohang));
+                    compositeDisposable.add(apiBanHang.createOrder(str_email,str_sdt, String.valueOf(tongtien),id, str_dichi,totalItem, new Gson().toJson(Utils.manggiohang))
+                            .observeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(
+                                    userModel -> {
+                                        Toast.makeText(getApplicationContext(), "Thanh cong",Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    },
+                                    throwable -> {
+                                        Toast.makeText(getApplicationContext(), throwable.getMessage(),Toast.LENGTH_SHORT).show();
+                                    }
+                            ));
+                }
+            }
+        });
+    }
 
+    private void initView() {
+        apiBanHang = RetrofitClient.getInstance(Utils.BASE_URL).create(ApiBanHang.class);
+        toolbar = findViewById(R.id.toolbar);
+        txttongtien = findViewById(R.id.txttongtien);
+        txtsdt = findViewById(R.id.txtsdt);
+        txtemail = findViewById(R.id.txtemail);
+        edtdiachi = findViewById(R.id.editdiachi);
+        btndathang = findViewById(R.id.btndathang);
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @Override
+    protected void onDestroy() {
+        compositeDisposable.clear();
+        super.onDestroy();
+    }
     /*
     Toolbar toolbar;
     TextView txttongtien, txtsodt, txtemail;
