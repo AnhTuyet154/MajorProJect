@@ -49,8 +49,5 @@ public class GioHang {
         this.soluong = soluong;
     }
 
-    String tensp;
-    long giasp;
-    String hinhsp;
-    int soluong;
+
 }

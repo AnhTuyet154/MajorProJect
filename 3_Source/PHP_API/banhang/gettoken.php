@@ -1,7 +1,8 @@
 <?php 
 include "connect.php";
 $status = $_POST['status'];
-/*if($status==1){*/
+//bai 47
+if($status==1){
     $query = 'SELECT * FROM `user` WHERE `status`='.$status;
 $data = mysqli_query($conn, $query);
 $result = array();
@@ -23,7 +24,8 @@ if(!empty($result)){
         'result' => $result
     ];
 }
-/*} else if($status == 0){
+//bai 47
+} else if($status == 0){
     $iduser = $_POST['$iduser'];
     $query = "SELECT * FROM `user` WHERE `id` = ".$iduser." AND `status` = ".$status;
 $data = mysqli_query($conn,$query);
@@ -45,7 +47,7 @@ if(!empty($result)){
         'result' => $result
     ];
 }
-}*/
+}
 
 print_r(json_encode($arr));
 ?>

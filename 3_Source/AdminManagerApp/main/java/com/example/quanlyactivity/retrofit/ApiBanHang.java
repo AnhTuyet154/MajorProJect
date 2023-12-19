@@ -101,8 +101,11 @@ public interface  ApiBanHang {
 
     @POST("gettoken.php")
     @FormUrlEncoded
-    Observable<UserModel> getToken(
-            @Field("status") int status
+    Observable<UserModel> gettoken(
+            @Field("status") int status,
+            //bai47
+
+            @Field("iduser") int iduser
     );
 
     @POST("donhang.php")
@@ -121,7 +124,7 @@ public interface  ApiBanHang {
     @FormUrlEncoded
     Observable<MessageModel> updateOrder(
             @Field("id") int id,
-            @Field("trangthai") String trangthai
+            @Field("trangthai") int trangthai
     );
     @POST("xemdonhang.php")
     @FormUrlEncoded
@@ -129,4 +132,14 @@ public interface  ApiBanHang {
             @Field("iduser") int id
     );
 
+    @POST("timkiem.php")
+    @FormUrlEncoded
+    Observable<DonHangModel> search(
+            @Field("search") String search
+    );
+    @POST("deleteorder.php")
+    @FormUrlEncoded
+    Observable<MessageModel> deleteOrder(
+            @Field("iddonhang") int id
+    );
 }

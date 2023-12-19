@@ -16,7 +16,27 @@ public class Utils {
     public static final String MESS = "message";
     public static final String DATETIME = "datetime";
     public static final String PATH_CHAT = "chat";
-
-
-
+    public static String statusOrder(int status){
+        String result="";
+        switch (status){
+            case 0:
+                result = "Đơn hàng đang được xử lí";
+                break;
+            case 1:
+                result = "Được tiếp nhận";
+                break;
+            case 2:
+                result = "Được giao cho vận chuyển";
+                break;
+            case 3:
+                result = "Giao thành công";
+                break;
+            case 4:
+                result = "Hủy";
+                break;
+            default:
+                result="...";
+        }
+        return result;
+    }
 }
